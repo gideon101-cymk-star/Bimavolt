@@ -137,6 +137,27 @@ img { display: block; max-width: 100%; }
 .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
 .gallery-grid img { width: 100%; height: 260px; object-fit: cover; border-radius: 18px; border: 1px solid var(--line); }
 
+.journey-list { max-width: 880px; margin: 0 auto; border-top: 1px solid var(--line); }
+.journey-step { display: grid; grid-template-columns: 54px minmax(0, 1fr); gap: 20px; padding: 25px 0; border-bottom: 1px solid var(--line); }
+.journey-number { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 50%; background: var(--lime); color: var(--green-dark); font-family: var(--display); font-size: 13px; font-weight: 800; }
+.journey-kicker { color: var(--green); font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.journey-step h3 { margin: 6px 0 8px; font-family: var(--display); font-size: clamp(18px, 2vw, 23px); line-height: 1.3; }
+.journey-step p { max-width: 730px; margin: 0; color: var(--muted); font-size: 14px; line-height: 1.8; }
+.journey-band { background: #ebf0e5; }
+.journey-risk-grid, .journey-status-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 17px; }
+.journey-risk, .journey-status-grid article { min-width: 0; padding: 23px; border: 1px solid rgba(23,34,28,.08); background: rgba(255,255,255,.65); }
+.journey-risk h3, .journey-status-grid h3 { margin: 16px 0 9px; font-family: var(--display); font-size: 19px; line-height: 1.3; }
+.journey-risk p, .journey-status-grid p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.75; }
+.journey-payment { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(260px, .75fr); gap: 44px; align-items: center; }
+.journey-payment h2 { max-width: 650px; margin: 13px 0 16px; font-family: var(--display); font-size: clamp(30px, 4vw, 46px); line-height: 1.12; }
+.journey-payment p { max-width: 690px; color: var(--muted); font-size: 14px; line-height: 1.8; }
+.journey-payment .button { margin-top: 8px; }
+.journey-safeguard { padding: 25px; border: 1px solid var(--line); background: #edf2ea; }
+.journey-safeguard-icon { display: grid; width: 45px; height: 45px; place-items: center; border-radius: 50%; background: var(--lime); color: var(--green-dark); font-size: 12px; font-weight: 800; }
+.journey-safeguard h3 { margin: 16px 0 10px; font-family: var(--display); font-size: 18px; }
+.journey-safeguard ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 12px; line-height: 1.75; }
+.journey-status-label { color: var(--green); font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+
 .claim-flow { padding-top: 28px; }
 .timeline { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
 .timeline-step { display: flex; gap: 16px; padding: 22px 22px 18px; background: #f9faf6; border: 1px solid var(--line); border-radius: 20px; }
@@ -323,6 +344,7 @@ img { display: block; max-width: 100%; }
   .rider-estimator-layout { grid-template-columns: 1fr; }
   .rider-estimate-result { position: static; }
   .register-layout { grid-template-columns: .75fr 1.25fr; gap: 35px; }
+  .journey-payment { grid-template-columns: 1fr; gap: 25px; }
 }
 
 @media (max-width: 700px) {
@@ -360,6 +382,13 @@ img { display: block; max-width: 100%; }
   .gallery-grid { grid-template-columns: 1fr; }
   .about-photo { height: 360px; }
   .principles { grid-template-columns: 1fr; gap: 23px; }
+  .journey-step { grid-template-columns: 38px minmax(0, 1fr); gap: 12px; padding: 21px 0; }
+  .journey-number { width: 34px; height: 34px; font-size: 11px; }
+  .journey-step p { font-size: 13px; }
+  .journey-risk-grid, .journey-status-grid { grid-template-columns: 1fr; }
+  .journey-risk, .journey-status-grid article { padding: 20px; }
+  .journey-payment { gap: 22px; }
+  .journey-safeguard { padding: 20px; }
   .team-row { grid-template-columns: 36px 1fr; gap: 12px; }
   .team-row p { grid-column: 2; }
   .cta-band { align-items: flex-start; flex-direction: column; padding: 27px 22px; }
