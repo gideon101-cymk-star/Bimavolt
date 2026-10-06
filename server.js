@@ -332,14 +332,31 @@ app.post('/api/telematics/simulate-swap', (req, res) => {
   });
 });
 
-app.post('/ussd', (req, res) => {
-  const { sessionId, serviceCode, phoneNumber, text } = req.body || {};
-  const sanitizedNumber = phoneNumber || '+254700000000';
-  const responseText = getUSSDOutput(sanitizedNumber, text || '');
+function handleUSSDCallback(req, res) {
+  const { phoneNumber, text = '' } = req.body || {};
 
-  res.set('Content-Type', 'text/plain');
-  res.send(responseText);
-});
+  if (typeof phoneNumber !== 'string' || !phoneNumber.trim()) {
+    return res
+      .status(200)
+      .type('text/plain')
+      .send('END USSD request is missing the phone number.');
+  }
+
+  if (typeof text !== 'string') {
+    return res
+      .status(200)
+      .type('text/plain')
+      .send('END USSD request contains an invalid menu response.');
+  }
+
+  const responseText = getUSSDOutput(phoneNumber.trim(), text);
+  return res
+    .status(200)
+    .type('text/plain')
+    .send(responseText);
+}
+
+app.post(['/', '/ussd'], handleUSSDCallback);
 
 app.get('/api/portfolio-metrics', (req, res) => {
   const meanFleetBSM = riders.reduce((sum, rider) => sum + rider.bsm, 0) / riders.length;
