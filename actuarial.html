@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Get a simple illustration of a possible BimaVolt battery-cover contribution using your riding and battery habits.">
+  <title>Estimate your contribution | BimaVolt Kenya</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="app.css">
+  <script src="app.js" defer></script>
+  <script src="actuarial.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-row">
+      <a class="brand" href="index.html" aria-label="BimaVolt home"><img class="brand-mark" src="Screenshot%202026-10-05%20152728.png" alt="BimaVolt logo"><span><span class="brand-name">BimaVolt</span><span class="brand-caption">Cover for the ride ahead</span></span></a>
+      <nav class="nav" id="site-nav" aria-label="Main navigation">
+        <a href="index.html">Home</a><a href="about.html">About</a><a href="team.html">Our team</a><a href="actuarial.html" aria-current="page">Estimate cover</a><a href="privacy.html">Privacy</a>
+      </nav>
+      <div class="header-actions"><a class="text-link" href="register.html?mode=login">Log in</a><a class="button" href="register.html">Get covered <span class="arrow" aria-hidden="true">↗</span></a><button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="site-nav" aria-expanded="false" data-menu-toggle>☰</button></div>
+    </div>
+  </header>
+  <main id="main">
+    <section class="page-hero">
+      <div class="wrap">
+        <span class="eyebrow">A quick cover estimate</span>
+        <h1>Let’s make the numbers easier to understand.</h1>
+        <p>Tell us a little about how you ride and use your battery. We’ll show an example contribution per swap, with no name or phone number needed.</p>
+      </div>
+    </section>
+
+    <section class="section wrap rider-estimator" aria-labelledby="rider-estimate-title">
+      <div class="rider-estimator-intro">
+        <span class="eyebrow">About one minute</span>
+        <h2 id="rider-estimate-title">What is a usual week like for you?</h2>
+        <p>Your answers help make this example more relevant to your riding. Pick the option that feels closest; you do not need to know technical battery readings.</p>
+      </div>
+      <div class="rider-estimator-layout">
+        <form class="actuarial-panel rider-estimator-form" id="rider-estimate-form">
+          <div class="rider-question">
+            <label for="rider-battery-use"><span class="rider-question-number">01</span>When do you usually swap or recharge?</label>
+            <select id="rider-battery-use" required>
+              <option value="">Choose the closest answer</option>
+              <option value="68.4">I still have plenty of charge left</option>
+              <option value="81.2">I use most of the charge</option>
+              <option value="93.6">I often get close to running out</option>
+            </select>
+            <small>It is fine to swap sooner. Follow your battery maker’s advice.</small>
+          </div>
+          <div class="rider-question">
+            <label for="rider-heat"><span class="rider-question-number">02</span>Which best describes a typical ride for your battery?</label>
+            <select id="rider-heat" required>
+              <option value="">Choose the closest answer</option>
+              <option value="29.2">Mostly ordinary rides and conditions</option>
+              <option value="33.4">A mix of ordinary and hot, long rides</option>
+              <option value="41.8">Often long rides or very hot conditions</option>
+            </select>
+            <small>This is only a rough estimate; no temperature reading is needed.</small>
+          </div>
+          <div class="rider-question">
+            <label for="rider-fast-charge"><span class="rider-question-number">03</span>How often do you use a fast charger?</label>
+            <select id="rider-fast-charge" required>
+              <option value="">Choose the closest answer</option>
+              <option value="5">Rarely or never</option>
+              <option value="12">Some weeks</option>
+              <option value="30">Most weeks</option>
+            </select>
+          </div>
+          <div class="rider-question">
+            <label for="rider-weeks"><span class="rider-question-number">04</span>About how many weeks have you used this battery for work?</label>
+            <input id="rider-weeks" type="number" min="0" max="1000000" step="1" inputmode="numeric" placeholder="For example, 8" required>
+            <small>A rough guess is okay. This helps balance your experience with a fleet average.</small>
+          </div>
+          <div class="rider-question">
+            <label for="rider-swaps"><span class="rider-question-number">05</span>About how many battery swaps do you make in a week?</label>
+            <input id="rider-swaps" type="number" min="0" max="1000" step="1" inputmode="numeric" placeholder="For example, 10" required>
+            <small>We use this only to estimate a possible weekly total.</small>
+          </div>
+          <div class="rider-estimator-actions">
+            <button class="button" type="submit">See my estimate <span class="arrow" aria-hidden="true">↗</span></button>
+            <button class="rider-reset" type="reset">Start again</button>
+          </div>
+          <p class="rider-privacy-note">Your answers stay in this page and are not sent to BimaVolt or saved.</p>
+        </form>
+        <section class="actuarial-panel rider-estimate-result" aria-labelledby="rider-result-title" aria-live="polite">
+          <span class="eyebrow">Your example</span>
+          <h3 id="rider-result-title" tabindex="-1">A contribution alongside each swap</h3>
+          <div id="rider-estimate-empty" class="rider-result-empty">
+            <span class="rider-result-icon" aria-hidden="true">KES</span>
+            <p>Answer the questions and tap <strong>See my estimate</strong>. We’ll show the example here.</p>
+          </div>
+          <div id="rider-estimate-values" class="rider-result-values" hidden>
+            <div class="rider-price-card"><span>Example per swap</span><strong id="rider-price-result">—</strong><small>Kenyan shillings</small></div>
+            <div class="rider-price-card rider-weekly-card"><span>Example for your usual week</span><strong id="rider-weekly-result">—</strong><small id="rider-swaps-result">—</small></div>
+            <p class="rider-result-explanation" id="rider-result-explanation"></p>
+          </div>
+          <p class="rider-estimate-disclaimer">This is an illustration from a prototype, not a quote, policy offer, or promise of cover. Actual prices and cover would need to be confirmed by an insurer.</p>
+          <details class="rider-model-note">
+            <summary>How is this example worked out?</summary>
+            <p>Your answers are converted to example battery-use and temperature levels; this page does not read your battery or track your rides. The model currently uses a KES 25 starting amount, a 1.08 fleet average and an uncalibrated collision factor of 1. Those are prototype assumptions, not a confirmed price from an insurer.</p>
+          </details>
+        </section>
+      </div>
+    </section>
+
+    <details class="actuarial-technical">
+      <summary>Technical model, assumptions and benchmark data</summary>
+      <div class="actuarial-technical-content">
+    <section class="section wrap actuarial-section" aria-labelledby="premium-title">
+      <div class="section-head">
+        <span class="eyebrow">01 / Pay-as-you-swap pricing</span>
+        <h2 id="premium-title">Blend observed battery stress with fleet experience.</h2>
+        <p class="section-intro">The B&uuml;hlmann&ndash;Straub credibility weight tempers a rider's observed battery stress until enough experience is available. Adjust the inputs to see the indicated premium update.</p>
+      </div>
+      <div class="actuarial-layout">
+        <form class="actuarial-panel actuarial-fields" id="premium-form">
+          <h3>Rider and pricing assumptions</h3>
+          <div class="actuarial-input-grid">
+            <div class="actuarial-field"><label for="dod">Depth of discharge (DoD, %)</label><input id="dod" type="number" min="0" max="100" step="0.1" value="68.4" required></div>
+            <div class="actuarial-field"><label for="cell-temp">Cell temperature (&deg;C)</label><input id="cell-temp" type="number" min="-30" max="150" step="0.1" value="29.2" required></div>
+            <div class="actuarial-field"><label for="fast-charge">Fast-charge share (%)</label><input id="fast-charge" type="number" min="0" max="100" step="0.1" value="12" required></div>
+            <div class="actuarial-field"><label for="experience">Rider experience (n periods)</label><input id="experience" type="number" min="0" max="1000000" step="1" value="8" required></div>
+            <div class="actuarial-field"><label for="fleet-bsm">Fleet benchmark BSM</label><input id="fleet-bsm" type="number" min="0.01" max="100" step="0.01" value="1.08" required></div>
+            <div class="actuarial-field"><label for="credibility-k">Credibility constant (K)</label><input id="credibility-k" type="number" min="0.01" max="1000000" step="0.01" value="2" required></div>
+            <div class="actuarial-field"><label for="base-premium">Base premium (KES / swap)</label><input id="base-premium" type="number" min="0.1" max="1000000" step="0.1" value="25" required></div>
+            <div class="actuarial-field"><label for="collision-factor">Collision factor</label><input id="collision-factor" type="number" min="0.01" max="100" step="0.01" value="1" required></div>
+          </div>
+          <p class="actuarial-hint">Fast-charge share is entered as a percentage and converted to a fraction in the BSM formula. K defaults to 2 from the current prototype's configured variance ratio; the blueprint does not supply calibrated factor values. A collision factor of 1.00 is neutral pending calibration.</p>
+        </form>
+        <section class="actuarial-panel actuarial-results" aria-labelledby="premium-results-title">
+          <h3 id="premium-results-title">Indicated rider result</h3>
+          <div class="actuarial-highlight"><span>Indicated premium</span><strong id="premium-result" aria-live="polite">—</strong><span>Kenyan shillings per swap</span></div>
+          <dl class="actuarial-result-list">
+            <div><dt>Battery stress multiplier (BSM)</dt><dd id="bsm-result">—</dd></div>
+            <div><dt>Credibility weight (Z)</dt><dd id="credibility-result">—</dd></div>
+            <div><dt>Credibility-weighted BSM</dt><dd id="blended-bsm-result">—</dd></div>
+            <div><dt>Applied collision factor</dt><dd id="applied-collision-result">—</dd></div>
+          </dl>
+          <p class="actuarial-status" id="premium-status" role="status" aria-live="polite">Update an assumption to recalculate the indicated premium.</p>
+        </section>
+      </div>
+      <div class="actuarial-formula" aria-label="Premium calculation formula">
+        <strong>Model used</strong>
+        <code>BSM = exp(1.50 max(0, DoD - 0.80) + 0.04 max(0, temperature - 35) + 0.50 fast-charge share)</code>
+        <code>Z = n / (n + K)</code>
+        <code>Premium = base premium &times; [Z &times; BSM + (1 - Z) &times; fleet BSM] &times; collision factor</code>
+      </div>
+    </section>
+
+    <section class="section actuarial-band" aria-labelledby="decrement-title">
+      <div class="wrap actuarial-section">
+        <div class="section-head">
+          <span class="eyebrow">02 / Multiple decrement risk</span>
+          <h2 id="decrement-title">Separate the three ways an asset can leave the fleet.</h2>
+          <p class="section-intro">Enter calibrated cause-specific forces per 1,000 operating cycles and an exposure period. The model assumes constant forces during that period and treats causes as competing first events.</p>
+        </div>
+        <div class="actuarial-layout">
+          <form class="actuarial-panel actuarial-fields" id="decrement-form">
+            <h3>Cause rates and exposure</h3>
+            <div class="actuarial-input-grid">
+              <div class="actuarial-field"><label for="collision-force">Mode 1 &mdash; collision force / 1,000 cycles</label><input id="collision-force" type="number" min="0" max="1000" step="0.01" placeholder="Enter calibrated rate" required></div>
+              <div class="actuarial-field"><label for="degradation-force">Mode 2 &mdash; battery degradation force / 1,000 cycles</label><input id="degradation-force" type="number" min="0" max="1000" step="0.01" placeholder="Enter calibrated rate" required></div>
+              <div class="actuarial-field"><label for="thermal-force">Mode 3 &mdash; thermal runaway force / 1,000 cycles</label><input id="thermal-force" type="number" min="0" max="1000" step="0.01" placeholder="Enter calibrated rate" required></div>
+              <div class="actuarial-field"><label for="exposure-cycles">Exposure (operating cycles)</label><input id="exposure-cycles" type="number" min="0" max="1000000" step="1" placeholder="Enter exposure" required></div>
+            </div>
+            <p class="actuarial-hint">Mode 2 follows the blueprint's trigger: State of Health below 70% before 1,200 standard cycles. The blueprint specifies the competing-risk structure, but does not provide cause-specific force estimates; those must be calibrated from experience data.</p>
+          </form>
+          <section class="actuarial-panel actuarial-results" aria-labelledby="decrement-results-title">
+            <h3 id="decrement-results-title">Probability over entered exposure</h3>
+            <p class="actuarial-status" id="decrement-status" role="status" aria-live="polite">Enter all three cause rates and exposure to calculate probabilities.</p>
+            <dl class="actuarial-result-list">
+              <div><dt>Survives without decrement</dt><dd id="survival-result">—</dd></div>
+              <div><dt>Mode 1 &mdash; collision</dt><dd id="mode-one-result">—</dd></div>
+              <div><dt>Mode 2 &mdash; electrochemical degradation</dt><dd id="mode-two-result">—</dd></div>
+              <div><dt>Mode 3 &mdash; thermal runaway</dt><dd id="mode-three-result">—</dd></div>
+              <div><dt>Any decrement</dt><dd id="total-decrement-result">—</dd></div>
+            </dl>
+          </section>
+        </div>
+        <div class="actuarial-formula">
+          <strong>Constant-force calculation</strong>
+          <code>&mu;total = &mu;1 + &mu;2 + &mu;3; survival(t) = exp(-&mu;total &times; t)</code>
+          <code>Cause-specific qj(t) = [&mu;j / &mu;total] &times; [1 - exp(-&mu;total &times; t)]</code>
+          <span>Each entered rate is converted from a rate per 1,000 cycles before applying the formula.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section wrap actuarial-section" aria-labelledby="reserve-title">
+      <div class="section-head">
+        <span class="eyebrow">03 / Reserve monitoring</span>
+        <h2 id="reserve-title">Make unearned premium and IBNR assumptions visible.</h2>
+        <p class="section-intro">The blueprint calls for dedicated unearned premium (UPR) and incurred-but-not-reported (IBNR) reserves. These simple monitoring estimates expose the inputs; they are not a substitute for a validated valuation basis.</p>
+      </div>
+      <div class="actuarial-layout">
+        <form class="actuarial-panel actuarial-fields" id="reserve-form">
+          <h3>Portfolio estimates (KES)</h3>
+          <div class="actuarial-input-grid">
+            <div class="actuarial-field"><label for="written-premium">Written premium</label><input id="written-premium" type="number" min="0" max="1000000000000" step="0.01" placeholder="Enter written premium" required></div>
+            <div class="actuarial-field"><label for="unexpired-share">Unexpired coverage share (%)</label><input id="unexpired-share" type="number" min="0" max="100" step="0.1" placeholder="Enter unexpired share" required></div>
+            <div class="actuarial-field"><label for="ultimate-claims">Expected ultimate claims</label><input id="ultimate-claims" type="number" min="0" max="1000000000000" step="0.01" placeholder="Enter estimate" required></div>
+            <div class="actuarial-field"><label for="reported-claims">Reported claims plus case estimates</label><input id="reported-claims" type="number" min="0" max="1000000000000" step="0.01" placeholder="Enter estimate" required></div>
+          </div>
+        </form>
+        <section class="actuarial-panel actuarial-results" aria-labelledby="reserve-results-title">
+          <h3 id="reserve-results-title">Indicative reserve measures</h3>
+          <div class="actuarial-highlight"><span>Unearned premium reserve (UPR)</span><strong id="upr-result" aria-live="polite">—</strong><span>Kenyan shillings</span></div>
+          <div class="actuarial-highlight actuarial-highlight-secondary"><span>IBNR estimate</span><strong id="ibnr-result" aria-live="polite">—</strong><span>Kenyan shillings</span></div>
+          <p class="actuarial-status" id="reserve-status" role="status" aria-live="polite">Enter all estimates to calculate indicative reserves.</p>
+        </section>
+      </div>
+      <div class="actuarial-formula">
+        <strong>Illustrative monitoring formulas</strong>
+        <code>UPR = written premium &times; unexpired coverage share</code>
+        <code>IBNR estimate = max(0, expected ultimate claims - reported claims and case estimates)</code>
+        <span>The blueprint names UPR and IBNR but does not specify their valuation methods; confirm an approved reserving basis before financial or solvency reporting.</span>
+      </div>
+    </section>
+
+    <section class="section actuarial-band" aria-labelledby="benchmark-title">
+      <div class="wrap actuarial-section">
+        <div class="section-head">
+          <span class="eyebrow">04 / Blueprint benchmark</span>
+          <h2 id="benchmark-title">Compare the reported rider segments.</h2>
+          <p class="section-intro">The source document reports these averages for a benchmark of 500 active riders across Nairobi, Nakuru, Kiambu and Kisumu. They are shown as published, not recalculated by the input models above.</p>
+        </div>
+        <div class="actuarial-table-wrap">
+          <table class="actuarial-table">
+            <thead><tr><th scope="col">Rider segment</th><th scope="col">Avg DoD</th><th scope="col">Avg cell temp.</th><th scope="col">Harsh events / 100 km</th><th scope="col">Avg BSM</th><th scope="col">Avg swap premium</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Tier 1 &mdash; Safe Operator (Gold)</th><td>68.4%</td><td>29.2 &deg;C</td><td>1.2</td><td>0.88</td><td>KES 21.50</td></tr>
+              <tr><th scope="row">Tier 2 &mdash; Standard Fleet Average</th><td>81.2%</td><td>33.4 &deg;C</td><td>4.5</td><td>1.08</td><td>KES 27.20</td></tr>
+              <tr><th scope="row">Tier 3 &mdash; Stressed Usage (High Risk)</th><td>93.6%</td><td>41.8 &deg;C</td><td>11.8</td><td>1.84</td><td>KES 38.40</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <aside class="actuarial-warning" aria-label="Model validation issue">
+          <strong>Calibration issue to resolve before production</strong>
+          <p>The printed BSM formula is an exponential of non-negative terms, so it cannot produce a BSM below 1.00. The benchmark reports 0.88 for the safe-operator segment. The benchmark premiums also cannot be independently reproduced from the document because the calibrated credibility, base premium and collision factors are not provided. Treat the reported segment figures as source benchmarks and reconcile the model basis before using it for underwriting.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section wrap actuarial-section" aria-labelledby="assumptions-title">
+      <div class="section-head">
+        <span class="eyebrow">Scope and assumptions</span>
+        <h2 id="assumptions-title">A transparent prototype, not a live underwriting decision.</h2>
+      </div>
+      <div class="actuarial-notes">
+        <article><h3>What is implemented</h3><p>The blueprint's BSM and credibility equations, its pay-as-you-swap premium structure, a constant-force competing-risk probability calculation, and transparent UPR/IBNR monitoring estimates.</p></article>
+        <article><h3>What still needs calibration</h3><p>Cause-specific decrement rates, the fleet and rider variance basis, exposure units, a collision-factor model, and approved reserve methods must be supported by validated portfolio experience and actuarial review.</p></article>
+        <article><h3>Prototype boundary</h3><p>This workbench runs in the browser and does not change rider account quotes, collect telemetry, trigger M-Pesa payments, or submit data to the server. Do not use its illustrative results for a policy, claim, or solvency filing.</p></article>
+      </div>
+    </section>
+      </div>
+    </details>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-top">
+        <div><a class="brand" href="index.html"><img class="brand-mark" src="Screenshot%202026-10-05%20152728.png" alt="BimaVolt logo"><span><span class="brand-name">BimaVolt</span><span class="brand-caption" style="color:#b7c5bb">Cover for the ride ahead</span></span></a><p class="footer-blurb">Practical cover for electric boda boda riders and the batteries they rely on.</p></div>
+        <nav class="footer-links" aria-label="Footer"><a href="about.html">About BimaVolt</a><a href="team.html">Our team</a><a href="actuarial.html">Estimate cover</a><a href="privacy.html">Privacy</a><a href="register.html">Rider registration</a></nav>
+      </div>
+      <div class="footer-bottom"><span>&copy; <span data-year></span> BimaVolt Kenya</span><span>Product information is subject to policy terms and availability.</span></div>
+    </div>
+  </footer>
+  <script>document.querySelectorAll('[data-year]').forEach((node) => node.textContent = new Date().getFullYear());</script>
+</body>
+</html>
